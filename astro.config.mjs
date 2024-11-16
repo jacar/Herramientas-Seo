@@ -3,9 +3,10 @@ import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
   integrations: [tailwind()],
-  site: 'https://seo-tools-gratuitas.com',
+  site: 'https://herramientaseo.netlify.app/',
   i18n: {
     defaultLocale: 'es',
     locales: ['es']
   }
 });
+base: '/Herramientas-Seo/', // Si usas un subdirectorio
