@@ -1,0 +1,33 @@
+---
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body class="bg-gray-50 min-h-screen">
+    <header class="bg-white shadow-sm">
+      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <a href="/" class="text-xl font-bold text-gray-800">SEO Tools Gratuitas</a>
+      </nav>
+    </header>
+    <slot />
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <p class="text-center">© {new Date().getFullYear()} SEO Tools Gratuitas. Todas las herramientas son gratuitas.</p>
+      </div>
+    </footer>
+  </body>
+</html>

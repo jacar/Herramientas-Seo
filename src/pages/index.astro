@@ -1,0 +1,75 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ToolCard from '../components/ToolCard.astro';
+
+const tools = [
+  {
+    title: 'Generador de Hashtags Instagram',
+    description: 'Crea hashtags optimizados para aumentar la visibilidad de tus posts en Instagram',
+    icon: '🏷️',
+    href: '/herramientas/generador-hashtags'
+  },
+  {
+    title: 'SERP Snippet Generator',
+    description: 'Previsualiza cómo aparecerá tu página en los resultados de búsqueda de Google',
+    icon: '🔍',
+    href: '/herramientas/serp-generator'
+  },
+  {
+    title: 'Comprobador de Visibilidad',
+    description: 'Analiza la visibilidad de tu sitio web en los resultados de Google',
+    icon: '👁️',
+    href: '/herramientas/visibilidad'
+  },
+  {
+    title: 'Detector de Actualizaciones Google',
+    description: 'Mantente informado sobre las últimas actualizaciones del algoritmo de Google',
+    icon: '🔄',
+    href: '/herramientas/actualizaciones-google'
+  },
+  {
+    title: 'Test de Velocidad',
+    description: 'Mide y optimiza la velocidad de carga de tu página web',
+    icon: '⚡',
+    href: '/herramientas/test-velocidad'
+  },
+  {
+    title: 'Generador Rich Snippets',
+    description: 'Crea snippets enriquecidos para tus vídeos en los resultados de búsqueda',
+    icon: '🎥',
+    href: '/herramientas/rich-snippets'
+  },
+  {
+    title: 'Keyword Tool',
+    description: 'Encuentra las palabras clave más relevantes para tu contenido',
+    icon: '🎯',
+    href: '/herramientas/keywords'
+  },
+  {
+    title: 'Validador Hreflang',
+    description: 'Verifica y genera el markup correcto para tus etiquetas hreflang',
+    icon: '🌐',
+    href: '/herramientas/hreflang'
+  }
+];
+---
+
+<Layout 
+  title="Herramientas SEO Gratuitas | Optimiza tu Sitio Web"
+  description="Suite completa de herramientas SEO gratuitas: generador de hashtags, SERP preview, análisis de velocidad y más. Sin registro, uso inmediato online."
+>
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <h1 class="text-4xl font-bold text-gray-900 text-center mb-4">
+      Herramientas SEO Gratuitas
+    </h1>
+    <p class="text-xl text-gray-600 text-center mb-12">
+      Optimiza tu presencia online con nuestras herramientas SEO gratuitas. Sin registro, sin costes.
+    </p>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {tools.map(tool => (
+        <ToolCard {...tool} />
+      ))}
+    </div>
+  </main>
+</Layout>

@@ -1,0 +1,22 @@
+---
+import Layout from './Layout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  toolName: string;
+}
+
+const { title, description, toolName } = Astro.props;
+---
+
+<Layout title={title} description={description}>
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+      <div class="px-6 py-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-4">{toolName}</h1>
+        <slot />
+      </div>
+    </div>
+  </main>
+</Layout>

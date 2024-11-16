@@ -1,0 +1,109 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import ErrorBoundary from '../../components/ErrorBoundary.astro';
+
+---
+
+<ToolLayout
+  title="Keyword Tool | SEO Tools Gratuitas"
+  description="Encuentra las palabras clave más relevantes para tu contenido. Herramienta gratuita de investigación de keywords."
+  toolName="Keyword Tool"
+>
+  <div class="space-y-6">
+    <div>
+      <label for="keyword" class="block text-sm font-medium text-gray-700 mb-2">
+        Palabra clave principal
+      </label>
+      <input
+        type="text"
+        id="keyword"
+        class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
+        placeholder="Ej: marketing digital"
+      />
+    </div>
+
+    <div>
+      <button
+        type="button"
+        id="analyzeBtn"
+        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+      >
+        Analizar Keywords
+      </button>
+    </div>
+
+    <div id="results" class="hidden space-y-6">
+      <div class="bg-white p-6 rounded-lg border border-gray-200">
+        <h3 class="text-lg font-medium text-gray-900 mb-4">Keywords relacionadas</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="keywordsList"></div>
+      </div>
+
+      <div class="bg-white p-6 rounded-lg border border-gray-200">
+        <h3 class="text-lg font-medium text-gray-900 mb-4">Preguntas frecuentes</h3>
+        <ul class="space-y-3" id="questionsList"></ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const keywordInput = document.querySelector('#keyword') as HTMLInputElement;
+    const analyzeBtn = document.querySelector('#analyzeBtn') as HTMLButtonElement;
+    const results = document.querySelector('#results') as HTMLDivElement;
+    const keywordsList = document.querySelector('#keywordsList') as HTMLDivElement;
+    const questionsList = document.querySelector('#questionsList') as HTMLUListElement;
+
+    analyzeBtn.addEventListener('click', async () => {
+      const keyword = keywordInput.value.trim();
+      if (!keyword) {
+        alert('Por favor, ingresa una palabra clave');
+        return;
+      }
+
+      analyzeBtn.disabled = true;
+      analyzeBtn.textContent = 'Analizando...';
+      
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Simulación de resultados
+      const relatedKeywords = [
+        { keyword: `${keyword} curso`, volume: Math.floor(Math.random() * 10000) },
+        { keyword: `${keyword} ejemplos`, volume: Math.floor(Math.random() * 8000) },
+        { keyword: `${keyword} herramientas`, volume: Math.floor(Math.random() * 6000) },
+        { keyword: `${keyword} gratis`, volume: Math.floor(Math.random() * 5000) },
+        { keyword: `${keyword} pdf`, volume: Math.floor(Math.random() * 4000) },
+        { keyword: `${keyword} tutorial`, volume: Math.floor(Math.random() * 3000) }
+      ];
+
+      const questions = [
+        `¿Qué es ${keyword}?`,
+        `¿Cómo aprender ${keyword}?`,
+        `¿Cuánto cuesta ${keyword}?`,
+        `¿Cuáles son los beneficios de ${keyword}?`
+      ];
+
+      keywordsList.innerHTML = relatedKeywords
+        .map(kw => `
+          <div class="p-3 bg-gray-50 rounded">
+            <p class="text-sm font-medium text-gray-900">${kw.keyword}</p>
+            <p class="text-sm text-gray-500">Volumen: ${kw.volume}</p>
+          </div>
+        `)
+        .join('');
+
+      questionsList.innerHTML = questions
+        .map(q => `
+          <li class="flex items-start">
+            <svg class="h-5 w-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            ${q}
+          </li>
+        `)
+        .join('');
+      
+      results.classList.remove('hidden');
+      analyzeBtn.disabled = false;
+      analyzeBtn.textContent = 'Analizar Keywords';
+    });
+  </script>
+</ToolLayout>

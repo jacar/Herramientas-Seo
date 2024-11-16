@@ -1,0 +1,160 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import ErrorBoundary from '../../components/ErrorBoundary.astro';
+
+---
+
+<ToolLayout
+  title="Validador Hreflang | SEO Tools Gratuitas"
+  description="Verifica y genera el markup correcto para tus etiquetas hreflang. Optimiza tu SEO internacional."
+  toolName="Validador y Generador Hreflang"
+>
+  <div class="space-y-6">
+    <div id="urlInputs" class="space-y-4">
+      <div class="flex items-center gap-4">
+        <select
+          class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-32 sm:text-sm border-gray-300 rounded-md"
+        >
+          <option value="es">Español</option>
+          <option value="en">English</option>
+          <option value="fr">Français</option>
+          <option value="de">Deutsch</option>
+          <option value="it">Italiano</option>
+        </select>
+        <input
+          type="url"
+          class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
+          placeholder="https://ejemplo.com/es/"
+        />
+        <button
+          type="button"
+          class="text-gray-400 hover:text-gray-500"
+          onclick="this.parentElement.remove()"
+        >
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="flex gap-4">
+      <button
+        type="button"
+        id="addUrlBtn"
+        class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+      >
+        + Añadir URL
+      </button>
+      <button
+        type="button"
+        id="generateBtn"
+        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700"
+      >
+        Generar Código
+      </button>
+    </div>
+
+    <div id="results" class="hidden space-y-6">
+      <div>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">Código HTML</h3>
+        <div class="bg-gray-50 p-4 rounded-md">
+          <pre class="text-sm text-gray-800 whitespace-pre-wrap" id="htmlOutput"></pre>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">Código HTTP Headers</h3>
+        <div class="bg-gray-50 p-4 rounded-md">
+          <pre class="text-sm text-gray-800 whitespace-pre-wrap" id="headerOutput"></pre>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        id="copyBtn"
+        class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+      >
+        Copiar código
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const urlInputs = document.querySelector('#urlInputs');
+    const addUrlBtn = document.querySelector('#addUrlBtn');
+    const generateBtn = document.querySelector('#generateBtn');
+    const results = document.querySelector('#results');
+    const htmlOutput = document.querySelector('#htmlOutput');
+    const headerOutput = document.querySelector('#headerOutput');
+    const copyBtn = document.querySelector('#copyBtn');
+
+    function createUrlInput() {
+      return `
+        <div class="flex items-center gap-4">
+          <select class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-32 sm:text-sm border-gray-300 rounded-md">
+            <option value="es">Español</option>
+            <option value="en">English</option>
+            <option value="fr">Français</option>
+            <option value="de">Deutsch</option>
+            <option value="it">Italiano</option>
+          </select>
+          <input
+            type="url"
+            class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
+            placeholder="https://ejemplo.com/es/"
+          />
+          <button
+            type="button"
+            class="text-gray-400 hover:text-gray-500"
+            onclick="this.parentElement.remove()"
+          >
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      `;
+    }
+
+    addUrlBtn.addEventListener('click', () => {
+      const div = document.createElement('div');
+      div.innerHTML = createUrlInput();
+      urlInputs.appendChild(div.firstElementChild);
+    });
+
+    generateBtn.addEventListener('click', () => {
+      const urlRows = urlInputs.querySelectorAll('.flex');
+      const inputs = Array.from(urlRows).map(row => ({
+        lang: row.querySelector('select').value,
+        url: row.querySelector('input').value.trim()
+      }));
+
+      if (inputs.some(input => !input.url)) {
+        alert('Por favor, completa todas las URLs');
+        return;
+      }
+
+      const htmlCode = inputs
+        .map(input => `<link rel="alternate" hreflang="${input.lang}" href="${input.url}" />`)
+        .join('\n');
+
+      const headerCode = inputs
+        .map(input => `Link: <${input.url}>; rel="alternate"; hreflang="${input.lang}"`)
+        .join('\n');
+
+      htmlOutput.textContent = htmlCode;
+      headerOutput.textContent = headerCode;
+      results.classList.remove('hidden');
+    });
+
+    copyBtn.addEventListener('click', () => {
+      const code = `HTML:\n${htmlOutput.textContent}\n\nHeaders:\n${headerOutput.textContent}`;
+      navigator.clipboard.writeText(code);
+      copyBtn.textContent = '¡Copiado!';
+      setTimeout(() => {
+        copyBtn.textContent = 'Copiar código';
+      }, 2000);
+    });
+  </script>
+</ToolLayout>

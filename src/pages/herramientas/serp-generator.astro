@@ -1,0 +1,103 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import ErrorBoundary from '../../components/ErrorBoundary.astro';
+
+---
+
+<ToolLayout
+  title="Generador de SERP Snippets | SEO Tools Gratuitas"
+  description="Previsualiza cómo aparecerá tu página en los resultados de búsqueda de Google. Optimiza tus títulos y descripciones meta."
+  toolName="Generador de SERP Snippets"
+>
+  <div class="space-y-6">
+    <div>
+      <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
+        Título de la página
+      </label>
+      <input
+        type="text"
+        id="title"
+        class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
+        placeholder="Ingresa el título de tu página"
+        maxlength="60"
+      />
+      <p class="mt-1 text-sm text-gray-500">
+        Caracteres: <span id="title-count">0</span>/60
+      </p>
+    </div>
+
+    <div>
+      <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
+        Meta descripción
+      </label>
+      <textarea
+        id="description"
+        rows="3"
+        class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
+        placeholder="Ingresa la meta descripción de tu página"
+        maxlength="160"
+      ></textarea>
+      <p class="mt-1 text-sm text-gray-500">
+        Caracteres: <span id="desc-count">0</span>/160
+      </p>
+    </div>
+
+    <div>
+      <label for="url" class="block text-sm font-medium text-gray-700 mb-2">
+        URL
+      </label>
+      <input
+        type="url"
+        id="url"
+        class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
+        placeholder="https://ejemplo.com/mi-pagina"
+      />
+    </div>
+
+    <div class="mt-8 border rounded-lg p-4 bg-gray-50">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Vista previa SERP</h3>
+      <div class="preview-container">
+        <div class="text-blue-800 text-xl mb-1" id="preview-title"></div>
+        <div class="text-green-700 text-sm mb-1" id="preview-url"></div>
+        <div class="text-gray-600" id="preview-description"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const titleInput = document.querySelector('#title') as HTMLInputElement;
+    const descInput = document.querySelector('#description') as HTMLTextAreaElement;
+    const urlInput = document.querySelector('#url') as HTMLInputElement;
+    const titleCount = document.querySelector('#title-count') as HTMLSpanElement;
+    const descCount = document.querySelector('#desc-count') as HTMLSpanElement;
+    const previewTitle = document.querySelector('#preview-title') as HTMLDivElement;
+    const previewUrl = document.querySelector('#preview-url') as HTMLDivElement;
+    const previewDesc = document.querySelector('#preview-description') as HTMLDivElement;
+
+    function updateCounters() {
+      titleCount.textContent = titleInput.value.length.toString();
+      descCount.textContent = descInput.value.length.toString();
+    }
+
+    function updatePreview() {
+      previewTitle.textContent = titleInput.value || 'Título de ejemplo';
+      previewUrl.textContent = urlInput.value || 'https://ejemplo.com/pagina';
+      previewDesc.textContent = descInput.value || 'Descripción de ejemplo que aparecerá en los resultados de búsqueda de Google...';
+    }
+
+    titleInput.addEventListener('input', () => {
+      updateCounters();
+      updatePreview();
+    });
+
+    descInput.addEventListener('input', () => {
+      updateCounters();
+      updatePreview();
+    });
+
+    urlInput.addEventListener('input', updatePreview);
+
+    // Inicializar preview
+    updatePreview();
+  </script>
+</ToolLayout>

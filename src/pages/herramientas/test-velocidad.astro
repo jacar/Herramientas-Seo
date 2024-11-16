@@ -1,0 +1,107 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import ErrorBoundary from '../../components/ErrorBoundary.astro';
+
+---
+
+<ToolLayout
+  title="Test de Velocidad | SEO Tools Gratuitas"
+  description="Analiza y optimiza la velocidad de carga de tu sitio web. Herramienta gratuita para mejorar el rendimiento."
+  toolName="Test de Velocidad"
+>
+  <div class="space-y-6">
+    <div>
+      <label for="url" class="block text-sm font-medium text-gray-700 mb-2">
+        URL a analizar
+      </label>
+      <input
+        type="url"
+        id="url"
+        class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
+        placeholder="https://ejemplo.com"
+      />
+    </div>
+
+    <div>
+      <button
+        type="button"
+        id="analyzeBtn"
+        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+      >
+        Analizar Velocidad
+      </button>
+    </div>
+
+    <div id="results" class="hidden space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-white p-4 rounded-lg border border-gray-200">
+          <h3 class="text-lg font-medium text-gray-900 mb-2">Performance</h3>
+          <div class="text-3xl font-bold" id="performanceScore">-</div>
+        </div>
+        <div class="bg-white p-4 rounded-lg border border-gray-200">
+          <h3 class="text-lg font-medium text-gray-900 mb-2">FCP</h3>
+          <div class="text-3xl font-bold" id="fcpScore">-</div>
+        </div>
+        <div class="bg-white p-4 rounded-lg border border-gray-200">
+          <h3 class="text-lg font-medium text-gray-900 mb-2">LCP</h3>
+          <div class="text-3xl font-bold" id="lcpScore">-</div>
+        </div>
+      </div>
+
+      <div class="bg-white p-6 rounded-lg border border-gray-200">
+        <h3 class="text-lg font-medium text-gray-900 mb-4">Recomendaciones</h3>
+        <ul class="space-y-3" id="recommendations"></ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const urlInput = document.querySelector('#url') as HTMLInputElement;
+    const analyzeBtn = document.querySelector('#analyzeBtn') as HTMLButtonElement;
+    const results = document.querySelector('#results') as HTMLDivElement;
+    const performanceScore = document.querySelector('#performanceScore') as HTMLDivElement;
+    const fcpScore = document.querySelector('#fcpScore') as HTMLDivElement;
+    const lcpScore = document.querySelector('#lcpScore') as HTMLDivElement;
+    const recommendations = document.querySelector('#recommendations') as HTMLUListElement;
+
+    analyzeBtn.addEventListener('click', async () => {
+      const url = urlInput.value.trim();
+      if (!url) {
+        alert('Por favor, ingresa la URL a analizar');
+        return;
+      }
+
+      analyzeBtn.disabled = true;
+      analyzeBtn.textContent = 'Analizando...';
+      
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Simulación de resultados
+      const score = Math.floor(Math.random() * 100);
+      performanceScore.textContent = `${score}/100`;
+      fcpScore.textContent = `${(Math.random() * 2 + 0.5).toFixed(1)}s`;
+      lcpScore.textContent = `${(Math.random() * 3 + 1).toFixed(1)}s`;
+      
+      const recommendationsList = [
+        'Optimizar imágenes y comprimirlas',
+        'Implementar caché del navegador',
+        'Minimizar JavaScript y CSS',
+        'Reducir tiempo de respuesta del servidor',
+        'Eliminar recursos que bloquean el renderizado'
+      ];
+      
+      recommendations.innerHTML = recommendationsList
+        .map(rec => `<li class="flex items-start">
+          <svg class="h-5 w-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          ${rec}
+        </li>`)
+        .join('');
+      
+      results.classList.remove('hidden');
+      analyzeBtn.disabled = false;
+      analyzeBtn.textContent = 'Analizar Velocidad';
+    });
+  </script>
+</ToolLayout>
